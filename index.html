@@ -1,13 +1,72 @@
-<!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <title>MiniApp</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+export default function TourMiniApp() {
+  const [destination, setDestination] = useState("");
+  const [budget, setBudget] = useState("");
+  const [date, setDate] = useState("");
+  const [results, setResults] = useState([]);
+
+  const handleSearch = () => {
+    // Пока данные статичны. Позже подключим к API Sletat.ru
+    setResults([
+      {
+        id: 1,
+        title: "Тур в Турцию",
+        price: "от 80 000 ₽",
+        image: "https://via.placeholder.com/300x180?text=Turkey"
+      },
+      {
+        id: 2,
+        title: "Тур в Египет",
+        price: "от 95 000 ₽",
+        image: "https://via.placeholder.com/300x180?text=Egypt"
+      }
+    ]);
+  };
+
+  return (
+    <div className="p-4 space-y-4 max-w-xl mx-auto">
+      <h1 className="text-2xl font-bold text-center">Поиск туров</h1>
+
+      <Input
+        placeholder="Куда хотите поехать?"
+        value={destination}
+        onChange={(e) => setDestination(e.target.value)}
+      />
+
+      <Input
+        placeholder="Бюджет (₽)"
+        value={budget}
+        onChange={(e) => setBudget(e.target.value)}
+      />
+
+      <Input
+        type="date"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+      />
+
+      <Button className="w-full" onClick={handleSearch}>
+        Найти тур
+      </Button>
+
+      <div className="grid gap-4">
+        {results.map((tour) => (
+          <Card key={tour.id} className="overflow-hidden">
+            <img src={tour.image} alt={tour.title} className="w-full h-40 object-cover" />
+            <CardContent className="p-3">
+              <h2 className="text-lg font-semibold">{tour.title}</h2>
+              <p className="text-sm text-muted-foreground">{tour.price}</p>
+              <Button variant="outline" className="mt-2 w-full">
+                Подробнее
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
