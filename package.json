@@ -11,5 +11,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
